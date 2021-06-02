@@ -1,5 +1,5 @@
 from flask import *
-from api.gameplay import gamePlay
+from app.api.gameplay import gamePlay
 from flask_cors import CORS
 
 app = Flask(__name__)
