@@ -1,15 +1,12 @@
 from flask import *
 from app.api.gameplay import gamePlay
+from app.api.scores import scores
 from flask_cors import CORS
+import os
 
 app = Flask(__name__)
-# app.config['SERVER_NAME'] = 'http://127.0.0.1:5000/'
-app.secret_key = "secretkey123"
+app.secret_key = os.environ["SECRET_KEY"]
 CORS(app)
 
-app.register_blueprint(gamePlay, url_prefix='/api')
-
-# login
-# signup
-# username picking in frontend
-# all these with authentication
+app.register_blueprint(gamePlay, url_prefix='/api/gamePlay')
+app.register_blueprint(scores, url_prefix='/api/scores')
