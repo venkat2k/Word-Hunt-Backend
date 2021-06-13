@@ -1,5 +1,5 @@
 from flask import Blueprint
-from flask import request
+from flask import request, jsonify
 import json
 import random
 from flask_cors import cross_origin
@@ -18,10 +18,10 @@ def getGameDetails():
     gameWord = dbService.chooseWord()
     gameId = str(gameId)
     session[gameId] = gameWord
-    response = {
-        "gameId": gameId
-    }
-    
+    response = jsonify(
+        gameId= gameId
+    )
+    response.headers.add("Access-Control-Allow-Origin", "*")
     return response
 
 @gamePlay.route("/validate", methods = ['GET'])
@@ -31,4 +31,6 @@ def validate():
     guess = request.args.get('guess')
     word = session.get(gameId)
     response = wordUtil.validate(guess, word)
+    response = jsonify(response)
+    response.headers.add("Access-Control-Allow-Origin", "*")
     return response

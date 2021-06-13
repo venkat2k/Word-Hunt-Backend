@@ -1,5 +1,5 @@
 from flask import Blueprint
-from flask import request
+from flask import request, jsonify
 import json
 import random
 from flask_cors import cross_origin
@@ -24,7 +24,8 @@ def addScore():
 @cross_origin(supports_credentials=True)
 def getLeaderBoard():
     result = dbService.getTopScores()
-    response = {
-        "result": result
-    }
+    response = jsonify(
+        result= result
+    )
+    response.headers.add("Access-Control-Allow-Origin", "*")
     return response
