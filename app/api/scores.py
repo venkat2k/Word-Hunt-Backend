@@ -1,5 +1,5 @@
 from flask import Blueprint
-from flask import request, jsonify
+from flask import request
 import json
 import random
 from flask_cors import cross_origin
@@ -9,7 +9,6 @@ scores = Blueprint("scores", __name__)
 session = {}
 
 @scores.route("/addScore", methods = ['POST'])
-@cross_origin(supports_credentials=True)
 def addScore():
     data = request.get_json()
     name = data.get('name')
@@ -21,11 +20,9 @@ def addScore():
     return response
 
 @scores.route("/getLeaderBoard", methods = ['GET'])
-@cross_origin(supports_credentials=True)
 def getLeaderBoard():
     result = dbService.getTopScores()
-    response = jsonify(
-        result= result
-    )
-    response.headers.add("Access-Control-Allow-Origin", "*")
+    response = {
+        "result": result
+    }
     return response
