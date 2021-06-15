@@ -8,6 +8,9 @@ dbCredentials = {
     "DBNAME": os.environ["DB_NAME"]
 }
 def getDBConnection():
-    connection = pymysql.connect(host=dbCredentials["HOST"], user=dbCredentials["NAME"], passwd=dbCredentials["PASSWORD"], database=dbCredentials["DBNAME"]);
-    return connection
+    try:
+        connection = pymysql.connect(host=dbCredentials["HOST"], user=dbCredentials["NAME"], passwd=dbCredentials["PASSWORD"], database=dbCredentials["DBNAME"]);
+        return connection
+    except:
+        raise error
 

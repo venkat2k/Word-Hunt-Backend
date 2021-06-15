@@ -7,25 +7,33 @@ import app.utils.wordUtil as wordUtil
 import app.services.dbService as dbService
 
 gamePlay = Blueprint("gameplay", __name__)
-session = {}
 
 @gamePlay.route("/getGameDetails", methods = ['GET'])
 def getGameDetails():
-    gameId = random.randint(1000000, 10000000)
-    while gameId in session:
+    try:
         gameId = random.randint(1000000, 10000000)
-    gameWord = dbService.chooseWord()
-    gameId = str(gameId)
-    session[gameId] = gameWord
-    response = {
-        "gameId": gameId
-    }
-    return response
+        gameWord = dbService.chooseWord()
+        gameId = str(gameId)
+        response = {
+            "gameId": gameId,
+            "gameWord": gameWord
+        }
+        return response
+    except Exception as error:
+        response = {
+            "error": str(error)
+        }
+        return response
 
 @gamePlay.route("/validate", methods = ['GET'])
 def validate():
-    gameId = request.args.get('gameId')
-    guess = request.args.get('guess')
-    word = session.get(gameId)
-    response = wordUtil.validate(guess, word)
-    return response
+    try:
+        gameId = request.args.get('gameId')
+        guess = request.args.get('guess')
+        response = wordUtil.validate(guess, word)
+        return response
+    except Exception as error:
+        response = {
+            "error": str(error)
+        }
+        return response
